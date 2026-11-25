@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Lazy Reader Privacy and Terms</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="icon" href="assets/app-icon.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+/* Layout: single readable column, brand strip at top, two policy sections with an in-page switcher */
+:root{
+  --bg:#F6F7FB; --surface:#FFFFFF; --fg:#1A1C22; --muted:#5B6070; --line:#E1E4EE;
+  --accent:#3557D6; --accent-soft:#E3E9FF; --teal:#0F8A7E; --mark:#FFE9A8;
+  --font:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#111318; --surface:#1A1D23; --fg:#E8E9EF; --muted:#A9AEBE; --line:#2C303A;
+  --accent:#9DB1FF; --accent-soft:#26346B; --teal:#6FD6C8; --mark:#4A3D10; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111318; --surface:#1A1D23; --fg:#E8E9EF; --muted:#A9AEBE; --line:#2C303A;
+  --accent:#9DB1FF; --accent-soft:#26346B; --teal:#6FD6C8; --mark:#4A3D10; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--font);font-size:16px;line-height:1.65;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:720px;margin:0 auto;padding-block:40px 64px;display:flex;flex-direction:column;gap:28px}
+header{display:flex;align-items:center;gap:14px}
+.logo{width:52px;height:52px;border-radius:14px;flex:none;background:linear-gradient(135deg,#3D5FE0,#0F8A7E);
+  display:flex;align-items:center;justify-content:center}
+header .who{font-size:13px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;font-weight:600}
+h1{font-size:30px;line-height:1.15;margin:2px 0 0;letter-spacing:-.02em;text-wrap:balance}
+nav{display:flex;gap:8px;flex-wrap:wrap}
+nav a{padding:8px 16px;border-radius:999px;background:var(--surface);border:1px solid var(--line);color:var(--fg);
+  text-decoration:none;font-weight:600;font-size:14px}
+nav a:hover,nav a:focus-visible{border-color:var(--accent);color:var(--accent);outline:none}
+.summary{background:var(--accent-soft);border-radius:16px;padding:18px 20px}
+.summary strong{display:block;margin-bottom:6px}
+.summary ul{margin:0;padding-left:20px}
+section{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:24px 22px;min-width:0}
+section h2{font-size:22px;margin:0 0 4px;letter-spacing:-.01em}
+.date{color:var(--muted);font-size:14px;margin:0 0 12px}
+h3{font-size:16px;margin:22px 0 4px}
+p{margin:6px 0}
+ul{margin:6px 0;padding-left:22px}
+li{margin:3px 0}
+mark{background:var(--mark);color:inherit;border-radius:3px;padding:0 2px}
+a{color:var(--accent)}
+footer{color:var(--muted);font-size:14px;text-align:center}
+</style>
+</head><body>
+
+
+<div class="wrap">
+  <header>
+    <div class="logo" aria-hidden="true">
+      <svg width="34" height="34" viewBox="0 0 26 24"><path fill="#fff" d="M3,6c2.2,-1 4.6,-1 7,0.4V19c-2.4,-1.4 -4.8,-1.4 -7,-0.4V6zM11,6.4c2.4,-1.4 4.8,-1.4 7,-0.4v12.6c-2.2,-1 -4.6,-1 -7,0.4V6.4z"/><path fill="none" stroke="#FFC66B" stroke-width="1.3" stroke-linecap="round" d="M20,9.2c0.9,0.9 1.3,1.9 1.3,3s-0.4,2.1 -1.3,3"/><path fill="none" stroke="#fff" stroke-width="1.3" stroke-linecap="round" d="M22.2,7.2c1.4,1.4 2.1,3.1 2.1,5s-0.7,3.6 -2.1,5"/></svg>
+    </div>
+    <div>
+      <div class="who">Prerak's App World</div>
+      <h1>Lazy Reader: Privacy Policy and Terms of Service</h1>
+    </div>
+  </header>
+
+  <nav aria-label="Sections">
+    <a href="#privacy">Privacy Policy</a>
+    <a href="#terms">Terms of Service</a>
+  </nav>
+
+  <div class="summary">
+    <strong>In short</strong>
+    <ul>
+      <li>Lazy Reader does not sell or share your personal data, and we do not run any server that receives it.</li>
+      <li>Your documents, progress, notes and settings stay on your phone.</li>
+      <li>There is no account and no advertising.</li>
+      <li>The Pro photo and translation features use Google ML Kit on your phone. Your photos and text are not uploaded, but ML Kit sends Google anonymous diagnostics when you use them.</li>
+    </ul>
+  </div>
+
+  <section id="privacy">
+    <h2>Privacy Policy</h2>
+    <p class="date">Effective 23 November 2026</p>
+    <p>This policy explains how the Lazy Reader app for Android ("the app"), made by Prerak's App World ("we"), handles information.</p>
+
+    <h3>Information we collect</h3>
+    <p>We (Prerak's App World) do not collect any personal information. The app has no account system, no advertising and no crash reporting service of its own. We have no server that receives your documents or your use of the app.</p>
+
+    <h3>Google ML Kit (Pro features)</h3>
+    <p>Photo to speech and Translate and read use Google ML Kit, which runs on your phone. Your photos, documents and translated text are processed on the phone and are not uploaded.</p>
+    <p>When you use these features, ML Kit sends Google diagnostic and usage information: device information (manufacturer, model, Android version), app information (package name and version), per-installation identifiers that are not intended to identify you, performance metrics, input and output sizes, event types and error codes, and for translation the languages you chose. Google uses this for diagnostics and usage analytics. This data is encrypted in transit. You can avoid it by not using the Pro photo and translation features. See Google's description: developers.google.com/ml-kit/android-data-disclosure.</p>
+    <p>The first time you translate into a language, the app downloads that language pack (about 30 MB) from Google.</p>
+
+    <h3>Purchases</h3>
+    <p>Lazy Reader Pro is sold through Google Play. Payment is handled entirely by Google; we never see your card or payment details. The app only checks with Google Play whether Pro has been bought on your Google account.</p>
+
+    <h3>Information stored on your phone</h3>
+    <p>The documents you import, the text taken from them, your reading position, saved moments, notes and settings are stored only in the app's private storage on your phone. They are deleted when you remove a document in the app, clear the app's data, or uninstall the app.</p>
+    <p>If you have turned on Android's own device backup, Android may include the app's data in your phone backup in your Google account. This is controlled by your phone's settings, not by us.</p>
+
+    <h3>Speech (text to speech)</h3>
+    <p>The app reads text aloud using your phone's text-to-speech engine, for example "Speech Services by Google". With the standard offline voices, speech is produced on your phone.</p>
+    <p>If you switch on <mark>Extra-natural online voices</mark> in Settings, the text being read is sent to the voice provider (for example Google) to produce speech. That processing is covered by the provider's own privacy policy. This option is off by default.</p>
+
+    <h3>Web pages</h3>
+    <p>When you share or paste a web link, the app downloads that one page directly from the website so it can be read aloud. The website receives a normal request from your phone, including your IP address, as with any browser. The app does not send cookies or log-in details, does not run scripts from the page, and keeps only the article text on your phone.</p>
+
+    <h3>Clipboard</h3>
+    <p>The app reads your clipboard only when you tap "Read what you copied" or open "Paste text / link". It does not read the clipboard in the background.</p>
+
+    <h3>Permissions</h3>
+    <ul>
+      <li><strong>Notifications</strong>: to show playback controls while the app reads in the background.</li>
+      <li><strong>Foreground service and wake lock</strong>: so reading continues when the screen is off.</li>
+      <li><strong>Internet</strong>: for web links, optional online voices, Google Play purchases, translation language packs and ML Kit diagnostics.</li>
+      <li><strong>Google Play billing</strong>: to sell and restore Lazy Reader Pro.</li>
+    </ul>
+
+    <h3>Children</h3>
+    <p>The app is not directed at children under 13.</p>
+
+    <h3>Your rights</h3>
+    <p>We do not hold personal data about you, so there is nothing for us to access, correct or delete. You control all app data on your phone and can delete it at any time. For data that Google receives through ML Kit or Google Play, Google's privacy policy applies. You keep all rights given to you by data protection law, such as the GDPR.</p>
+
+    <h3>Changes</h3>
+    <p>If this policy changes, we will update this page and the effective date. Important changes will also be mentioned in the app's release notes.</p>
+
+    <h3>Contact</h3>
+    <p>Questions about privacy: email <strong>thestreamic@gmail.com</strong> with "Lazy Reader" in the subject.<br>Prerak's App World, Adamstown, Lucan, Dublin, Ireland · thestreamic.in</p>
+  </section>
+
+  <section id="terms">
+    <h2>Terms of Service</h2>
+    <p class="date">Effective 23 November 2026</p>
+
+    <h3>1. Using the app</h3>
+    <p>Prerak's App World gives you a personal, non-exclusive, non-transferable licence to use Lazy Reader on devices you own or control, in line with these terms and the Google Play Terms of Service.</p>
+
+    <h3>2. Your content</h3>
+    <p>You are responsible for the documents and web pages you open in the app. Only import content that you have the right to use. The app processes your content on your phone for your own personal listening and does not publish or share it.</p>
+
+    <h3>3. AI voice</h3>
+    <p>The speech you hear is produced by a computer voice (text to speech). It may mispronounce words or read some text incorrectly. Summaries made by Quick listen are chosen automatically from the original sentences and may leave out important information. Text read from photos and machine translations can contain mistakes. Do not rely on any of these for medical, legal, financial or safety decisions.</p>
+
+    <h3>4. Acceptable use</h3>
+    <p>Do not use the app to break the law, infringe anyone's rights, or try to copy, reverse engineer or resell the app, except where the law allows it.</p>
+
+    <h3>5. Availability and changes</h3>
+    <p>We may update or change the app. Lazy Reader Pro is a one-time purchase that removes the free limits on every device signed in to the same Google account. Free users can try 3 web articles, 3 photos, 1 translation and 3 timed summaries; reading files and text aloud, key points and all other features stay free without limits. Purchases and refunds follow Google Play's rules.</p>
+
+    <h3>6. No warranty</h3>
+    <p>The app is provided "as is". To the extent the law allows, we do not promise that it will be error-free or always available.</p>
+
+    <h3>7. Liability</h3>
+    <p>To the extent the law allows, we are not liable for indirect or consequential loss, or for loss of data, arising from use of the app. Nothing in these terms limits liability that cannot be limited by law, or your statutory rights as a consumer.</p>
+
+    <h3>8. Law</h3>
+    <p>These terms are governed by the laws of Ireland. If you are a consumer, you also keep the protection of the mandatory laws of the country where you live.</p>
+
+    <h3>9. Contact</h3>
+    <p>Questions about these terms: email <strong>thestreamic@gmail.com</strong> with "Lazy Reader" in the subject.</p>
+  </section>
+
+  <footer>Lazy Reader · Prerak's App World · Adamstown, Lucan, Dublin, Ireland · thestreamic@gmail.com</footer>
+</div>
+
+</body></html>

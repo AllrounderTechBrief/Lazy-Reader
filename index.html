@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Lazy Reader</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Lazy Reader reads your PDFs, eBooks, notes and web pages aloud. Offline, private, no account and no ads. For Android.">
+<link rel="icon" href="assets/app-icon.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap">
+<style>
+/* Layout: brand-gradient hero with a live "read-along" demo, then a calm single column of feature bands on a cool paper background */
+:root{
+  --bg:#F6F7FB; --surface:#FFFFFF; --fg:#151821; --muted:#5B6070; --line:#E1E4EE;
+  --blue:#3557D6; --teal:#0F8A7E; --sun:#FFC66B; --hl:#FFE9A8; --word:#FFD54F;
+  --blue-soft:#E3E9FF; --teal-soft:#D9F2EE; --sun-soft:#FFF1D6;
+  --hero-a:#2B49C9; --hero-b:#0F8A7E; --ink:#0A1030;
+  --font:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --r:20px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0E1016; --surface:#171A22; --fg:#E8E9EF; --muted:#A3A9BA; --line:#262A35;
+  --blue:#9DB1FF; --teal:#6FD6C8; --blue-soft:#1E2A57; --teal-soft:#12352F; --sun-soft:#3A2D10; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E1016; --surface:#171A22; --fg:#E8E9EF; --muted:#A3A9BA; --line:#262A35;
+  --blue:#9DB1FF; --teal:#6FD6C8; --blue-soft:#1E2A57; --teal-soft:#12352F; --sun-soft:#3A2D10; color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font);font-size:17px;line-height:1.6}
+a{color:inherit}
+.in{max-width:1120px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+h1,h2,h3{letter-spacing:-.02em;text-wrap:balance;margin:0}
+h2{font-size:clamp(28px,4vw,42px);line-height:1.1;font-weight:800}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--teal)}
+.lead{font-size:19px;color:var(--muted);max-width:60ch}
+section{padding-block:88px}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 22px;border-radius:14px;font-weight:700;text-decoration:none;font-size:16px;border:0;cursor:pointer}
+.btn:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+
+/* ---------- hero ---------- */
+.hero{background:radial-gradient(1200px 600px at 85% -10%,rgba(123,91,240,.45),transparent 60%),
+  radial-gradient(900px 500px at -10% 110%,rgba(255,181,71,.22),transparent 60%),
+  linear-gradient(125deg,var(--hero-a),#2459BE 45%,var(--hero-b));color:#fff;
+  margin-top:calc(-1 * env(safe-area-inset-top,0px));padding-top:calc(env(safe-area-inset-top,0px) + 0px);padding-bottom:96px;overflow:hidden}
+nav.top{display:flex;align-items:center;gap:24px;padding-block:22px}
+.brand{display:flex;align-items:center;gap:12px;font-weight:800;font-size:19px;text-decoration:none}
+.brand img{width:40px;height:40px;border-radius:11px;box-shadow:0 6px 16px rgba(0,0,0,.25)}
+nav.top .links{display:flex;gap:22px;margin-left:auto;font-weight:600;font-size:15px}
+nav.top .links a{text-decoration:none;opacity:.88}
+nav.top .links a:hover{opacity:1;text-decoration:underline;text-underline-offset:4px}
+@media (max-width:760px){nav.top .links{display:none}}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center;padding-top:48px}
+@media (max-width:900px){.hero-grid{grid-template-columns:1fr;gap:44px;padding-top:24px}}
+.hero h1{font-size:clamp(44px,7vw,82px);line-height:.98;font-weight:900;letter-spacing:-.035em}
+.hero h1 .soft{color:rgba(255,255,255,.62)}
+.hero p.sub{font-size:20px;color:rgba(255,255,255,.88);margin:22px 0 30px;max-width:34ch}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.btn-play{background:#fff;color:var(--ink)}
+.btn-ghost{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.28)}
+.note{font-size:14px;color:rgba(255,255,255,.75);margin-top:16px}
+.formats{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px}
+.formats span{font-size:13px;font-weight:700;letter-spacing:.04em;padding:6px 12px;border-radius:8px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2)}
+
+/* live demo */
+.stage{position:relative;min-height:520px}
+.phone{position:absolute;right:0;top:0;width:280px;border-radius:38px;padding:10px;background:#0B0E1A;box-shadow:0 40px 90px rgba(5,10,40,.55);transform:rotate(3deg)}
+.phone img{display:block;width:100%;border-radius:30px}
+.demo{position:absolute;left:0;top:96px;width:min(420px,92%);background:#fff;color:#151821;border-radius:24px;padding:24px 24px 20px;box-shadow:0 30px 70px rgba(5,10,40,.45);z-index:2}
+.demo .lbl{font-size:12px;font-weight:700;letter-spacing:.12em;color:#5B6070}
+.demo .txt{font-size:19px;line-height:1.65;margin:10px 0 16px}
+.demo .txt .s{border-radius:5px;transition:background .25s}
+.demo .txt .s.on{background:var(--hl)}
+.demo .txt .w{border-radius:4px;transition:background .12s}
+.demo .txt .w.on{background:var(--word)}
+.demo .bar{display:flex;align-items:center;gap:12px}
+.demo .pp{width:46px;height:46px;border-radius:50%;background:#3557D6;display:flex;align-items:center;justify-content:center;border:0;cursor:pointer}
+.demo .track{flex:1;height:6px;border-radius:3px;background:#E6E8EF;overflow:hidden}
+.demo .track i{display:block;height:100%;width:0;background:#3557D6;transition:width .3s}
+.demo .spd{font-weight:800;color:#3557D6;font-size:14px}
+.chip{position:absolute;background:#fff;color:#151821;border-radius:16px;padding:12px 16px;display:flex;gap:12px;align-items:center;box-shadow:0 20px 50px rgba(5,10,40,.4);z-index:3;font-size:14px}
+.chip b{display:block;font-size:15px}
+.chip .ic{width:36px;height:36px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex:none}
+@media (max-width:900px){
+  .stage{min-height:auto;display:flex;flex-direction:column;gap:18px}
+  .phone{position:relative;right:auto;top:auto;margin:0 auto;transform:none;width:250px}
+  .demo{position:relative;top:auto;left:auto;width:100%}
+  .chip{display:none}
+}
+
+/* ---------- feature bands ---------- */
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:44px}
+@media (max-width:900px){.grid3{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.grid3{grid-template-columns:1fr}}
+.f{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:22px;min-width:0}
+.f .ic{width:44px;height:44px;border-radius:13px;display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+.f h3{font-size:18px;margin-bottom:6px}
+.f p{margin:0;color:var(--muted);font-size:15.5px}
+.ic.b{background:var(--blue-soft);color:var(--blue)} .ic.t{background:var(--teal-soft);color:var(--teal)} .ic.s{background:var(--sun-soft);color:#C7801A}
+.ic svg{width:22px;height:22px;fill:currentColor}
+
+
+/* free vs pro table */
+.cmp{margin-top:32px;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--surface)}
+.cr{display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px;padding:14px 20px;border-top:1px solid var(--line);font-size:15.5px;align-items:center}
+.cr:first-child{border-top:0}
+.cr span:not(:first-child){font-weight:600}
+.cr span:last-child{color:var(--teal)}
+.ch{background:var(--blue-soft);font-weight:700}
+.ch span{font-weight:800!important;color:var(--fg)!important}
+@media (max-width:620px){.cr{grid-template-columns:1.4fr 1fr 1fr;padding:12px 14px;font-size:14px}}
+
+/* Smart Clean before/after */
+.clean{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:40px}
+@media (max-width:760px){.clean{grid-template-columns:1fr}}
+.page{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:22px;font-size:15px;line-height:1.7;min-width:0}
+.page .tag{font-size:12px;font-weight:800;letter-spacing:.1em;margin-bottom:10px;display:inline-block;padding:4px 10px;border-radius:7px}
+.page.before .tag{background:#FDE3E1;color:#A3271F}
+.page.after .tag{background:var(--teal-soft);color:var(--teal)}
+.junk{text-decoration:line-through;text-decoration-color:#D9473C;text-decoration-thickness:2px;color:var(--muted);background:rgba(217,71,60,.08);border-radius:4px;padding:0 3px}
+.page small{display:block;color:var(--muted);font-size:13px}
+
+/* screenshots */
+.shots{display:flex;gap:20px;overflow-x:auto;padding:10px 4px 24px;margin-top:40px;scroll-snap-type:x mandatory}
+.shots figure{margin:0;flex:0 0 230px;scroll-snap-align:start}
+.shots img{width:100%;border-radius:26px;border:8px solid #0B0E1A;box-shadow:0 18px 40px rgba(10,16,48,.18);display:block}
+.shots figcaption{font-size:14px;font-weight:600;color:var(--muted);margin-top:10px;text-align:center}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:40px;counter-reset:st}
+@media (max-width:760px){.steps{grid-template-columns:1fr}}
+.step{padding:24px;border-radius:var(--r);background:var(--surface);border:1px solid var(--line);min-width:0}
+.step::before{counter-increment:st;content:counter(st);display:inline-flex;width:34px;height:34px;border-radius:50%;background:var(--blue);color:#fff;font-weight:800;align-items:center;justify-content:center;margin-bottom:12px}
+:root[data-theme="dark"] .step::before{color:#0E1016}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .step::before{color:#0E1016}}
+.step h3{font-size:18px;margin-bottom:4px}
+.step p{margin:0;color:var(--muted);font-size:15.5px}
+
+/* privacy */
+.privacy{background:var(--ink);color:#fff;border-radius:28px;padding:56px;display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
+@media (max-width:860px){.privacy{grid-template-columns:1fr;padding:32px}}
+.privacy h2{color:#fff}
+.privacy p{color:rgba(255,255,255,.8)}
+.plist{display:grid;gap:12px}
+.plist div{display:flex;gap:12px;align-items:flex-start;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:14px 16px;font-weight:600}
+.plist div span{color:#6FD6C8;font-weight:900}
+
+/* who */
+.who{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:36px}
+@media (max-width:860px){.who{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.who div{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;min-width:0}
+.who b{display:block;font-size:16px;margin-bottom:4px}
+.who span{font-size:14.5px;color:var(--muted)}
+
+/* faq */
+.faq{margin-top:32px;display:grid;gap:10px;max-width:800px}
+details{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px 20px}
+summary{font-weight:700;cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:16px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-weight:800;color:var(--blue);font-size:20px;line-height:1}
+details[open] summary::after{content:"–"}
+details p{margin:10px 0 0;color:var(--muted)}
+
+/* final cta */
+.final{text-align:center;background:linear-gradient(125deg,var(--hero-a),var(--hero-b));color:#fff;border-radius:28px;padding:64px 24px}
+.final h2{color:#fff}
+.final p{color:rgba(255,255,255,.85);margin:14px auto 26px;max-width:46ch}
+footer{padding-block:40px 56px;color:var(--muted);font-size:14px}
+footer .in{display:flex;flex-wrap:wrap;gap:16px 28px;align-items:center}
+footer a{text-decoration:none;font-weight:600}
+footer a:hover{text-decoration:underline}
+</style>
+</head><body>
+
+<div class="hero">
+  <div class="in">
+    <nav class="top">
+      <a class="brand" href="#top"><img src="assets/app-icon.png" alt="">Lazy Reader</a>
+      <div class="links"><a href="#features">Features</a><a href="#pro">Pro</a><a href="#smart-clean">Smart Clean</a><a href="#screens">Screens</a><a href="#privacy">Privacy</a><a href="#faq">FAQ</a></div>
+    </nav>
+    <div class="hero-grid" id="top">
+      <div>
+        <h1>Don't read it.<br><span class="soft">Listen to it.</span></h1>
+        <p class="sub">Lazy Reader reads your PDFs, eBooks, study notes and web articles aloud, and highlights every word as it goes.</p>
+        <div class="cta-row">
+          <a class="btn btn-play" href="#get"><svg width="20" height="20" viewBox="0 0 24 24"><path fill="#3557D6" d="M8 5.14v13.72c0 .79.87 1.27 1.54.84l10.78-6.86a1 1 0 0 0 0-1.69L9.54 4.3C8.87 3.87 8 4.35 8 5.14z"/></svg>Coming soon to Google Play</a>
+          <a class="btn btn-ghost" href="app/">Try it in your browser</a>
+        </div>
+        <p class="note">Free for Android 8 and newer · No account · No ads · Optional Pro €4.99, once</p>
+        <div class="formats"><span>PDF</span><span>EPUB</span><span>WORD</span><span>TXT</span><span>HTML</span><span>WEB LINKS</span></div>
+      </div>
+      <div class="stage">
+        <div class="phone"><img src="assets/screen-reader.png" alt="Lazy Reader reading study notes aloud, with the current sentence highlighted"></div>
+        <div class="demo" aria-label="Read-along example">
+          <div class="lbl">BIOLOGY NOTES · CHAPTER 2</div>
+          <p class="txt" id="demoText"></p>
+          <div class="bar">
+            <button class="pp" id="demoBtn" aria-label="Pause example"><svg id="demoIco" width="20" height="20" viewBox="0 0 24 24"><path fill="#fff" d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg></button>
+            <div class="track"><i id="demoBar"></i></div>
+            <span class="spd">1×</span>
+          </div>
+        </div>
+        <div class="chip" style="right:190px;bottom:40px">
+          <div class="ic" style="background:#D9F2EE"><svg width="20" height="20" viewBox="0 0 24 24"><path fill="#0F8A7E" d="M11 21h-1l1-7H7.5c-.88 0-.33-.75-.31-.78C8.48 10.94 10.42 7.54 13.01 3h1l-1 7h3.51c.4 0 .62.19.4.66C12.97 17.55 11 21 11 21z"/></svg></div>
+          <div><b>5 key points</b>Quick listen</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section id="features">
+  <div class="in">
+    <div class="eyebrow">What it does</div>
+    <h2>Everything you need to listen instead of read</h2>
+    <div class="grid3">
+      <div class="f"><div class="ic b"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg></div>
+        <h3>Opens your files</h3><p>PDF, EPUB, Word (DOCX), text and saved web pages. Chapters are found automatically so you can jump around.</p></div>
+      <div class="f"><div class="ic s"><svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg></div>
+        <h3>Read-along highlight</h3><p>The sentence being read is highlighted and each spoken word lights up, so your eyes and ears stay together.</p></div>
+      <div class="f"><div class="ic t"><svg viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg></div>
+        <h3>Web articles in one tap</h3><p>Share a page from Chrome, or copy a link and tap "Read what you copied". Menus and adverts are left out. 3 free articles, unlimited with Pro.</p></div>
+      <div class="f"><div class="ic t"><svg viewBox="0 0 24 24"><path d="M11 21h-1l1-7H7.5c-.88 0-.33-.75-.31-.78C8.48 10.94 10.42 7.54 13.01 3h1l-1 7h3.51c.4 0 .62.19.4.66C12.97 17.55 11 21 11 21z"/></svg></div>
+        <h3>Quick listen</h3><p>Hear 5 key points any time, or a 1, 5 or 10-minute version of a chapter (3 free, unlimited with Pro), built from the most important original sentences.</p></div>
+      <div class="f"><div class="ic b"><svg viewBox="0 0 24 24"><path d="M13 3a9 9 0 0 0-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42A8.954 8.954 0 0 0 13 21a9 9 0 0 0 0-18zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg></div>
+        <h3>Welcome back recap</h3><p>Open a book after a break and hear a short reminder of what you covered last time, then carry on.</p></div>
+      <div class="f"><div class="ic s"><svg viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></div>
+        <h3>Save moments</h3><p>Long-press a sentence to keep it, add your own note, and share all your saved quotes at once.</p></div>
+      <div class="f"><div class="ic b"><svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9v7c0 1.1.9 2 2 2h4v-8H5v-1c0-3.87 3.13-7 7-7s7 3.13 7 7v1h-4v8h4c1.1 0 2-.9 2-2v-7c0-4.97-4.03-9-9-9z"/></svg></div>
+        <h3>Keeps reading with the screen off</h3><p>Controls on your lock screen, notification and headphones. Pauses when you unplug headphones.</p></div>
+      <div class="f"><div class="ic t"><svg viewBox="0 0 24 24"><path d="M12.34 2.02C6.59 1.82 2 6.42 2 12c0 5.52 4.48 10 10 10 3.71 0 6.93-2.02 8.66-5.02-7.51-.25-12.09-8.43-8.32-14.96z"/></svg></div>
+        <h3>Sleep timer</h3><p>Stop after 10 to 60 minutes, or at the end of the chapter, for reading in bed.</p></div>
+      <div class="f"><div class="ic s"><svg viewBox="0 0 24 24"><path d="M9 4v3h5v12h3V7h5V4H9zm-6 8h3v7h3v-7h3V9H3v3z"/></svg></div>
+        <h3>Easy on the eyes</h3><p>Light, Dark and Sepia themes, adjustable text size, and an Easy-read font with extra spacing that helps with dyslexia.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="pro" style="padding-top:0">
+  <div class="in">
+    <div class="eyebrow">Free and Pro</div>
+    <h2>Free to use. Pro when you want more.</h2>
+    <p class="lead">Everything you need to listen is free. Try each Pro feature for free first, then unlock it for life with one payment of €4.99 on Android.</p>
+    <div class="cmp" role="table" aria-label="Free and Pro features">
+      <div class="cr ch" role="row"><span role="columnheader">Feature</span><span role="columnheader">Free</span><span role="columnheader">Pro · €4.99 once</span></div>
+      <div class="cr" role="row"><span role="cell">Read PDF, EPUB, Word and text aloud</span><span role="cell">Unlimited</span><span role="cell">Unlimited</span></div>
+      <div class="cr" role="row"><span role="cell">Read-along highlight, Smart Clean, sleep timer</span><span role="cell">Unlimited</span><span role="cell">Unlimited</span></div>
+      <div class="cr" role="row"><span role="cell">Saved moments, Welcome back recap, themes and fonts</span><span role="cell">Unlimited</span><span role="cell">Unlimited</span></div>
+      <div class="cr" role="row"><span role="cell">Quick listen: key points</span><span role="cell">Unlimited</span><span role="cell">Unlimited</span></div>
+      <div class="cr" role="row"><span role="cell">Quick listen: 1, 5 and 10-minute summaries</span><span role="cell">3 free</span><span role="cell">Unlimited</span></div>
+      <div class="cr" role="row"><span role="cell">Web articles (share or paste a link)</span><span role="cell">3 free</span><span role="cell">Unlimited</span></div>
+      <div class="cr" role="row"><span role="cell">Photo to speech</span><span role="cell">3 free photos</span><span role="cell">Unlimited</span></div>
+      <div class="cr" role="row"><span role="cell">Translate and read</span><span role="cell">1 free translation</span><span role="cell">Unlimited</span></div>
+    </div>
+    <p class="small" style="color:var(--muted);margin-top:14px">Pro is a one-time purchase through Google Play, restored automatically on any Android phone signed in to the same Google account. It is not a subscription. The web version is free and does not include photo, translation or web links.</p>
+  </div>
+</section>
+
+<section id="smart-clean" style="padding-top:0">
+  <div class="in">
+    <div class="eyebrow">Smart Clean</div>
+    <h2>It skips the clutter other readers read out</h2>
+    <p class="lead">Page numbers, running headers, footnote marks and web links make most text-to-speech apps sound robotic. Lazy Reader removes them before reading, and shows you exactly what it skipped.</p>
+    <div class="clean">
+      <div class="page before"><span class="tag">WHAT'S ON THE PAGE</span>
+        <small class="junk">THE WATER CYCLE — Chapter 2</small>
+        As water vapour rises, it cools down.<span class="junk">[12]</span> Cool air cannot hold as much vapour, so the vapour condenses into tiny droplets that form clouds. See <span class="junk">https://example.org/clouds</span> for diagrams.
+        <small class="junk" style="text-align:right">47</small>
+      </div>
+      <div class="page after"><span class="tag">WHAT YOU HEAR</span><br>
+        As water vapour rises, it cools down. Cool air cannot hold as much vapour, so the vapour condenses into tiny droplets that form clouds. See for diagrams.
+        <small style="margin-top:12px">Removed: header (1), footnote mark (1), link (1), page number (1)</small>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="screens" style="padding-top:0">
+  <div class="in">
+    <div class="eyebrow">Inside the app</div>
+    <h2>Simple enough for anyone</h2>
+    <div class="shots" tabindex="0" aria-label="App screenshots">
+      <figure><img src="assets/screen-library.png" alt="Library with a Continue listening card"><figcaption>Your library</figcaption></figure>
+      <figure><img src="assets/screen-reader.png" alt="Reader with highlighted sentence and player"><figcaption>Read along</figcaption></figure>
+      <figure><img src="assets/screen-sepia.png" alt="Sepia reading theme"><figcaption>Sepia theme</figcaption></figure>
+      <figure><img src="assets/screen-import.png" alt="Import preview with Smart Clean"><figcaption>Preview and Smart Clean</figcaption></figure>
+      <figure><img src="assets/screen-settings.png" alt="Voice settings with rate and pitch"><figcaption>Voice settings</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="in">
+    <div class="eyebrow">How it works</div>
+    <h2>Listening in three taps</h2>
+    <div class="steps">
+      <div class="step"><h3>Add something to read</h3><p>Import a file, paste text, or share a page from any app to Lazy Reader.</p></div>
+      <div class="step"><h3>Check the preview</h3><p>See the chapters, the listening time and what Smart Clean removed. Tap Import.</p></div>
+      <div class="step"><h3>Press play</h3><p>Listen at your own speed. Lazy Reader remembers where you stopped.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="privacy" style="padding-top:0">
+  <div class="in">
+    <div class="privacy">
+      <div>
+        <div class="eyebrow" style="color:#6FD6C8">Private by design</div>
+        <h2>Your documents stay on your phone</h2>
+        <p>Lazy Reader has no account and no server. It uses your phone's own voices, so it works on a plane, on the underground or anywhere without signal.</p>
+        <p>The internet is used when you open a web link, choose Google's online voices, buy Pro, or download a translation language pack. Pro photo and translation run on your phone with Google ML Kit: photos and text are not uploaded, but ML Kit sends Google anonymous diagnostics when you use them.</p>
+      </div>
+      <div class="plist">
+        <div><span>✓</span>No account or sign-up</div>
+        <div><span>✓</span>No ads</div>
+        <div><span>✓</span>Works offline</div>
+        <div><span>✓</span>Runs well on phones with 4 GB of memory</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="in">
+    <div class="eyebrow">Made for</div>
+    <h2>People who would rather listen</h2>
+    <div class="who">
+      <div><b>Students</b><span>Revise notes and textbook chapters on the bus or at the gym.</span></div>
+      <div><b>Tired eyes and dyslexia</b><span>Follow the highlight, use the Easy-read font, or just close your eyes.</span></div>
+      <div><b>Commuters</b><span>Turn the articles you saved into a listening queue.</span></div>
+      <div><b>Professionals</b><span>Get through reports and long PDFs while you do something else.</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="faq" style="padding-top:0">
+  <div class="in">
+    <div class="eyebrow">Questions</div>
+    <h2>Good to know</h2>
+    <div class="faq">
+      <details><summary>Is Lazy Reader free?</summary><p>Yes. Reading files and text aloud, Smart Clean, key points, saved moments and all themes are free and unlimited, with no adverts. You can also try 3 summaries, 3 web articles, 3 photos and 1 translation for free. Lazy Reader Pro is an optional one-time purchase of €4.99 that removes those limits.</p></details>
+      <details><summary>Is Pro a subscription?</summary><p>No. You pay once through Google Play and keep Pro for life. It is restored automatically when you reinstall or move to a new phone with the same Google account.</p></details>
+      <details><summary>Which voices does it use?</summary><p>It uses the text-to-speech voices already on your phone. For the best sound, install or update "Speech Services by Google" from Google Play and choose a voice in Lazy Reader's settings. You can change the speed and pitch there too.</p></details>
+      <details><summary>Does it need the internet?</summary><p>No. Files and pasted text are read completely offline. The internet is only needed to open a web link, or if you switch on online voices.</p></details>
+      <details><summary>Can it read photos of pages?</summary><p>Yes. Your first 3 photos are free, then it is part of Pro. Take a photo or pick one from your gallery and the text is recognised on your phone. Printed text in Latin-alphabet languages works best. Scanned PDF files are not supported yet; take a screenshot of the page and use Photo to speech instead.</p></details>
+      <details><summary>Can it open pages behind a login or paywall?</summary><p>No. It downloads only public pages, without your cookies or passwords. For other pages, select the text in your browser and share it to Lazy Reader instead.</p></details>
+      <details><summary>Is there a version for iPhone, Mac or Windows?</summary><p>Yes: the free web version runs in Safari, Chrome and Edge and can be added to your home screen. It reads files and pasted text aloud with highlighting, summaries and saved moments. Photo to speech, translation and web links are Android-only for now.</p></details>
+      <details><summary>Which phones does it work on?</summary><p>Android phones and tablets running Android 8.0 or newer. It is light enough for phones with 4 GB of memory.</p></details>
+      <details><summary>Are the summaries made by AI?</summary><p>Quick listen picks the most important original sentences on your phone. It does not rewrite your text or send it anywhere.</p></details>
+      <details><summary>How good is the translation?</summary><p>Translation is done on your phone by Google ML Kit. It is good for getting the meaning, but it is a machine translation and can contain mistakes, so do not rely on it for important decisions.</p></details>
+    </div>
+  </div>
+</section>
+
+<section id="get" style="padding-top:0">
+  <div class="in">
+    <div class="final">
+      <h2>Give your eyes a rest</h2>
+      <p>Lazy Reader is in testing now and coming soon to Google Play.</p>
+      <a class="btn btn-play" href="#top">Back to top</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="in">
+    <strong style="color:var(--fg)">Lazy Reader</strong>
+    <span>by Prerak's App World</span>
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="privacy.html#terms">Terms of Service</a>
+    <span>Contact: thestreamic@gmail.com</span>
+    <span>Adamstown, Lucan, Dublin, Ireland</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var sentences=["As water vapour rises, it cools down.","Cool air cannot hold as much vapour,","so the vapour condenses into tiny droplets that form clouds."];
+  var box=document.getElementById('demoText'),bar=document.getElementById('demoBar'),btn=document.getElementById('demoBtn'),ico=document.getElementById('demoIco');
+  var words=[],sEls=[];
+  sentences.forEach(function(s,si){var se=document.createElement('span');se.className='s';
+    s.split(' ').forEach(function(w,wi){var we=document.createElement('span');we.className='w';we.textContent=w;we.dataset.s=si;se.appendChild(we);words.push(we);
+      if(wi<s.split(' ').length-1)se.appendChild(document.createTextNode(' '));});
+    box.appendChild(se);sEls.push(se);if(si<sentences.length-1)box.appendChild(document.createTextNode(' '));});
+  var i=6,playing=true,t=null;
+  function paint(){words.forEach(function(w,k){w.classList.toggle('on',k===i)});
+    var cur=+words[i].dataset.s;sEls.forEach(function(s,k){s.classList.toggle('on',k===cur)});
+    bar.style.width=Math.round((i+1)/words.length*100)+'%';}
+  function step(){i=(i+1)%words.length;paint();}
+  var PAUSE='<path fill="#fff" d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/>',PLAY='<path fill="#fff" d="M8 5.14v13.72c0 .79.87 1.27 1.54.84l10.78-6.86a1 1 0 0 0 0-1.69L9.54 4.3C8.87 3.87 8 4.35 8 5.14z"/>';
+  function setPlaying(p){playing=p;clearInterval(t);if(p)t=setInterval(step,380);ico.innerHTML=p?PAUSE:PLAY;btn.setAttribute('aria-label',p?'Pause example':'Play example');}
+  btn.addEventListener('click',function(){setPlaying(!playing)});
+  paint();
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  setPlaying(!reduce);
+})();
+</script>
+
+</body></html>

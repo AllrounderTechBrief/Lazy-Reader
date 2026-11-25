@@ -1,0 +1,17 @@
+{
+  "name": "Lazy Reader – Read Aloud",
+  "short_name": "Lazy Reader",
+  "description": "Listen to your PDFs, eBooks, notes and documents. Private, no account, no ads.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#F6F7FB",
+  "theme_color": "#3557D6",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "share_target": { "action": "./", "method": "GET", "params": { "title": "title", "text": "text", "url": "url" } },
+  "categories": ["education", "productivity", "books"]
+}
