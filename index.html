@@ -1,8 +1,24 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Lazy Reader</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="Lazy Reader reads your PDFs, eBooks, study notes and documents aloud and highlights every word. Free, private, no account. Android and web.">
+<title>Lazy Reader – Text to Speech Reader for PDF, eBooks & Documents | Windows, Android, Web</title>
+<meta name="description" content="Listen to PDFs, eBooks, Word documents and web articles read aloud in natural voices. Read-along highlighting, Smart Clean, offline and private. Free to try on Windows, Android and the web.">
+<link rel="canonical" href="https://lazyreader.thestreamic.in/">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="theme-color" content="#0E1220">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Lazy Reader">
+<meta property="og:title" content="Lazy Reader – Text to speech reader for PDFs and eBooks">
+<meta property="og:description" content="Turn PDFs, eBooks and documents into audiobooks with read-along highlighting. Private, offline, free to try.">
+<meta property="og:url" content="https://lazyreader.thestreamic.in/">
+<meta property="og:image" content="https://lazyreader.thestreamic.in/assets/feature-graphic.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Lazy Reader – Text to speech reader for PDFs and eBooks">
+<meta name="twitter:description" content="Listen to PDFs, eBooks and documents read aloud with read-along highlighting. Private and offline.">
+<meta name="twitter:image" content="https://lazyreader.thestreamic.in/assets/feature-graphic.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "SoftwareApplication", "name": "Lazy Reader", "alternateName": "Lazy Reader Listener", "applicationCategory": "UtilitiesApplication", "applicationSubCategory": "Text to speech reader", "operatingSystem": "Windows 10, Windows 11, Android, Web browser", "description": "Text to speech reader that reads PDFs, eBooks, Word documents and web articles aloud with read-along highlighting. Private and offline.", "url": "https://lazyreader.thestreamic.in/", "downloadUrl": "https://apps.microsoft.com/detail/9P0QN9WHNW99", "installUrl": "https://apps.microsoft.com/detail/9P0QN9WHNW99", "screenshot": "https://lazyreader.thestreamic.in/assets/screen-reader.png", "featureList": ["Text to speech for PDF, EPUB, DOCX, TXT and web pages", "Read-along sentence highlighting", "Smart Clean skips page numbers, headers and footers", "Natural voices, offline", "Instant key points and summaries", "Sleep timer and saved moments"], "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR", "description": "Free to download and try"}, "publisher": {"@type": "Organization", "name": "Prerak's App World", "email": "thestreamic@gmail.com"}}, {"@type": "WebSite", "name": "Lazy Reader", "url": "https://lazyreader.thestreamic.in/"}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What is Lazy Reader?", "acceptedAnswer": {"@type": "Answer", "text": "Lazy Reader is a text to speech reader. It reads PDFs, eBooks (EPUB), Word documents, notes and web articles aloud in natural voices and highlights the sentence you are hearing, like an audiobook for anything you read."}}, {"@type": "Question", "name": "Is Lazy Reader free?", "acceptedAnswer": {"@type": "Answer", "text": "Lazy Reader is free to download and try. While we launch, all features are free for a limited time. Some advanced features will later become part of an optional Pro upgrade; reading your documents aloud stays free."}}, {"@type": "Question", "name": "Does it work on Windows?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Lazy Reader Listener for Windows is on the Microsoft Store. It uses natural AI voices generated on your PC, so it works offline and your documents are never uploaded."}}, {"@type": "Question", "name": "Can it read PDF files aloud?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Open a PDF and press Play. Smart Clean skips page numbers, headers, footers and footnote marks so you only hear the real text. Scanned PDFs (pictures of pages) are not supported yet."}}, {"@type": "Question", "name": "Does it help with dyslexia?", "acceptedAnswer": {"@type": "Answer", "text": "Many readers with dyslexia or tired eyes find listening with read-along highlighting easier. Lazy Reader also has an easy-read font with wider spacing and adjustable text size."}}]}]}</script>
 <link rel="icon" href="assets/app-icon.png">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap">
 <style>
@@ -59,6 +75,12 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .pill{display:inline-flex;align-items:center;gap:8px;padding:6px 14px 6px 6px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);font-size:14px;font-weight:600}
 .pill b{background:var(--sun);color:var(--ink);border-radius:999px;padding:2px 9px;font-size:12px}
 .hero h1{font-size:clamp(46px,7.4vw,92px);line-height:.98;font-weight:800;letter-spacing:-.045em;margin-top:22px}
+.hero h1 .kicker{display:block;font-size:15px;font-weight:600;letter-spacing:.02em;line-height:1.4;color:rgba(255,255,255,.72);margin-bottom:14px;text-transform:none}
+.store-badge{display:inline-flex;align-items:center;gap:10px;background:#000;color:#fff;border:1px solid rgba(255,255,255,.35);border-radius:10px;padding:9px 16px;font-weight:600;text-decoration:none;font-size:15px}
+.store-badge small{display:block;font-size:11px;font-weight:500;opacity:.8}
+.seo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:26px}
+.seo-grid article{background:#fff;border:1px solid rgba(14,18,32,.08);border-radius:18px;padding:22px}
+.seo-grid h3{font-size:18px;margin-bottom:8px}
 .hero h1 .serif{font-size:1.12em;color:var(--teal-2);letter-spacing:-.02em}
 .hero .sub{font-size:20px;color:rgba(255,255,255,.82);margin:24px 0 34px;max-width:36ch}
 .ctas{display:flex;flex-wrap:wrap;gap:12px}
@@ -166,7 +188,7 @@ footer a:hover{text-decoration:underline}
 
 <nav class="nav" aria-label="Main">
   <div class="in">
-    <a class="brand" href="#top"><img src="assets/app-icon.png" alt="">Lazy Reader</a>
+    <a class="brand" href="#top"><img src="assets/app-icon.png" alt="Lazy Reader logo" width="28" height="28">Lazy Reader</a>
     <div class="links"><a href="#features">Features</a><a href="#who">Who it's for</a><a href="#faq">FAQ</a></div>
     <a class="btn cta" href="app/">Try it free</a>
   </div>
@@ -175,11 +197,12 @@ footer a:hover{text-decoration:underline}
 <header class="hero" id="top">
   <div class="in">
     <div>
-      <span class="pill"><b>NEW</b> Read-along listening for Android and the web</span>
-      <h1>Don't read it.<br><span class="serif">Listen</span> to it.</h1>
+      <span class="pill"><b>NEW</b> Now on Windows and the web · Android coming soon</span>
+      <h1><span class="kicker">Text to speech reader for PDFs, eBooks &amp; documents</span>Don't read it.<br><span class="serif">Listen</span> to it.</h1>
       <p class="sub">Lazy Reader reads your PDFs, eBooks, study notes and documents aloud, highlights every word, and skips the clutter.</p>
       <div class="ctas">
         <a class="btn btn-main" href="app/"><svg viewBox="0 0 24 24"><path fill="#3557D6" d="M8 5.14v13.72c0 .79.87 1.27 1.54.84l10.78-6.86a1 1 0 0 0 0-1.69L9.54 4.3C8.87 3.87 8 4.35 8 5.14z"/></svg>Try it free in your browser</a>
+        <a class="store-badge" style="padding:12px 18px" href="https://apps.microsoft.com/detail/9P0QN9WHNW99" rel="noopener"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path fill="#F25022" d="M2 2h9.5v9.5H2z"/><path fill="#7FBA00" d="M12.5 2H22v9.5h-9.5z"/><path fill="#00A4EF" d="M2 12.5h9.5V22H2z"/><path fill="#FFB900" d="M12.5 12.5H22V22h-9.5z"/></svg><span><small>Get it from</small>Microsoft Store</span></a>
         <a class="btn btn-ghost" href="#platforms"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M3.6 2.2c-.3.3-.5.8-.5 1.4v16.8c0 .6.2 1.1.5 1.4l9.5-9.8-9.5-9.8zm10.6 8.7 2.6-2.7L5.4 1.7c-.3-.2-.7-.2-1 0l9.8 9.2zm0 2.2-9.8 9.2c.3.2.7.2 1 0l11.4-6.5-2.6-2.7zm6.4-2.9-2.9-1.7-2.8 2.9 2.8 2.9 2.9-1.7c.8-.5.8-1.9 0-2.4z"/></svg>Google Play <small>coming soon</small></a>
       </div>
       <div class="trust"><span>No account</span><span>Works offline</span><span>No ads</span><span>Files stay on your device</span></div>
@@ -281,7 +304,7 @@ footer a:hover{text-decoration:underline}
     <div class="plat">
       <article><span class="status live">Free · live now</span><h3>Web app</h3><p>Works in Chrome, Edge and Safari on Windows, Mac, iPhone and iPad. Install it from the browser for an app icon. Reads files and pasted text.</p><a class="btn" href="app/">Open the web app</a></article>
       <article><span class="status soon">Coming soon</span><h3>Android</h3><p>The full app: web articles, Smart Clean, read-along and lock-screen controls. In testing on Google Play now.</p></article>
-      <article><span class="status soon">Coming soon</span><h3>Windows</h3><p>A desktop app with natural on-device voices and optional on-device AI to explain passages. Coming to the Microsoft Store.</p></article>
+      <article><span class="status live">Microsoft Store</span><h3>Windows</h3><p>Lazy Reader Listener: natural AI voices made on your PC, read-along highlighting and instant summaries. Works offline; your documents are never uploaded.</p><a class="store-badge" href="https://apps.microsoft.com/detail/9P0QN9WHNW99" rel="noopener"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path fill="#F25022" d="M2 2h9.5v9.5H2z"/><path fill="#7FBA00" d="M12.5 2H22v9.5h-9.5z"/><path fill="#00A4EF" d="M2 12.5h9.5V22H2z"/><path fill="#FFB900" d="M12.5 12.5H22V22h-9.5z"/></svg><span><small>Get it from</small>Microsoft Store</span></a></article>
     </div>
   </div>
 </section>
@@ -300,13 +323,26 @@ footer a:hover{text-decoration:underline}
   </div>
 </section>
 
+<section id="uses" style="padding-top:0">
+  <div class="in">
+    <div class="eyebrow">Text to speech for everything you read</div>
+    <h2>Listen to any <span class="serif">document</span></h2>
+    <div class="seo-grid">
+      <article><h3>PDF text to speech</h3><p>Open a PDF and hear it read aloud. Page numbers, headers, footers and footnote marks are skipped automatically, so it sounds like an audiobook.</p></article>
+      <article><h3>Read eBooks aloud</h3><p>Listen to EPUB eBooks chapter by chapter, with the sentence highlighted as you go and a sleep timer for bedtime listening.</p></article>
+      <article><h3>Word documents and notes</h3><p>Turn DOCX reports, lecture notes and study guides into audio. Instant key points help you revise before an exam.</p></article>
+      <article><h3>Easier reading for dyslexia</h3><p>Read-along highlighting, an easy-read font with wider spacing and adjustable text size make long texts easier to follow.</p></article>
+    </div>
+  </div>
+</section>
+
 <section id="faq" style="padding-top:0">
   <div class="in">
     <div class="eyebrow">Questions</div>
     <h2>Good to know</h2>
     <div class="faq">
-      <details><summary>Is Lazy Reader free?</summary><p>Yes. Reading files and text aloud, Smart Clean, key points, saved moments, recap and all themes are free, with no adverts and no account.</p></details>      <details><summary>Which voices does it use?</summary><p>Your device's own text-to-speech voices. On Android, install or update “Speech Services by Google” for the best sound. In the browser, Edge and Chrome offer the most natural voices and Safari uses Apple's voices.</p></details>
-      <details><summary>Does it need the internet?</summary><p>No. Files and pasted text are read offline. The internet is only used for web links and optional online voices.</p></details>            <details><summary>Can I use it on iPhone, Mac or Windows?</summary><p>Yes, with the free web app in Safari, Chrome or Edge. It reads files and pasted text with highlighting, summaries and saved moments. Web links are an Android feature for now.</p></details>
+      <details><summary>What is Lazy Reader?</summary><p>Lazy Reader is a text to speech reader. It reads PDFs, eBooks (EPUB), Word documents, notes and web articles aloud in natural voices and highlights the sentence you are hearing, like an audiobook for anything you read.</p></details><details><summary>Is Lazy Reader free?</summary><p>Lazy Reader is free to download and try. While we launch, all features are free for a limited time. Some advanced features will later become part of an optional Pro upgrade; reading your documents aloud stays free.</p></details><details><summary>Does it work on Windows?</summary><p>Yes. Lazy Reader Listener for Windows is on the Microsoft Store. It uses natural AI voices generated on your PC, so it works offline and your documents are never uploaded.</p></details><details><summary>Can it read PDF files aloud?</summary><p>Yes. Open a PDF and press Play. Smart Clean skips page numbers, headers, footers and footnote marks so you only hear the real text. Scanned PDFs (pictures of pages) are not supported yet.</p></details><details><summary>Does it help with dyslexia?</summary><p>Many readers with dyslexia or tired eyes find listening with read-along highlighting easier. Lazy Reader also has an easy-read font with wider spacing and adjustable text size.</p></details>      <details><summary>Which voices does it use?</summary><p>Your device's own text-to-speech voices. On Android, install or update “Speech Services by Google” for the best sound. In the browser, Edge and Chrome offer the most natural voices and Safari uses Apple's voices.</p></details>
+      <details><summary>Does it need the internet?</summary><p>No. Files and pasted text are read offline. The internet is only used for web links and optional online voices.</p></details>            <details><summary>Can I use it on iPhone or Mac?</summary><p>Yes, with the web app in Safari, Chrome or Edge. It reads files and pasted text with highlighting, summaries and saved moments. Web links are an Android feature for now.</p></details>
       <details><summary>Are the summaries made by AI?</summary><p>Quick listen picks the most important original sentences on your device. It does not rewrite your text or send it anywhere.</p></details>
     </div>
   </div>
@@ -316,8 +352,8 @@ footer a:hover{text-decoration:underline}
   <div class="in">
     <div class="final">
       <h2>Give your eyes a <span class="serif">rest</span></h2>
-      <p>Open the web app now. No download, no account, nothing to set up.</p>
-      <div class="ctas"><a class="btn btn-main" href="app/">Try it free in your browser</a></div>
+      <p>Try the web app now, no account needed, or get Lazy Reader Listener for Windows.</p>
+      <div class="ctas"><a class="btn btn-main" href="app/">Try it free in your browser</a><a class="store-badge" href="https://apps.microsoft.com/detail/9P0QN9WHNW99" rel="noopener"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path fill="#F25022" d="M2 2h9.5v9.5H2z"/><path fill="#7FBA00" d="M12.5 2H22v9.5h-9.5z"/><path fill="#00A4EF" d="M2 12.5h9.5V22H2z"/><path fill="#FFB900" d="M12.5 12.5H22V22h-9.5z"/></svg><span><small>Get it from</small>Microsoft Store</span></a></div>
     </div>
   </div>
 </section>
